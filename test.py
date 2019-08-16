@@ -1,2 +1,3 @@
-#Et program til at teste git og github.
-print('test')
+import sqlite3
+
+conn = sqlite3.connect("mydata.db")
