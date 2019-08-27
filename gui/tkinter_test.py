@@ -10,15 +10,18 @@ class Min_gui(tk.Frame):
         self.build_GUI()
 
     def change(self):
-        self.lblName.config(text = 'Her står der noget nyt tekst.')
+        t = self.enText.get()
+        self.lblName.config(text = t)
 
 
     def build_GUI(self):
         self.pack(side = tk.BOTTOM)
         self.lblName = tk.Label(self, text = 'her står laaaaaangt noget tekst i en label')
         self.butChange = tk.Button(self, text = 'Lav teksten om', command = self.change)
-        self.lblName.pack(side = tk.LEFT)
-        self.butChange.pack(side = tk.LEFT)
+        self.enText = tk.Entry(self, text = '')
+        self.butChange.pack(side = tk.TOP)
+        self.lblName.pack(side = tk.TOP)
+        self.enText.pack(side = tk.TOP)
 
 app = Min_gui()
 
