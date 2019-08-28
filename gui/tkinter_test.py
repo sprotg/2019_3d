@@ -1,7 +1,5 @@
 import tkinter as tk
 
-
-
 class Min_gui(tk.Frame):
 
     def __init__(self, master=None):
@@ -16,12 +14,24 @@ class Min_gui(tk.Frame):
 
     def build_GUI(self):
         self.pack(side = tk.BOTTOM)
-        self.lblName = tk.Label(self, text = 'her står laaaaaangt noget tekst i en label')
-        self.butChange = tk.Button(self, text = 'Lav teksten om', command = self.change)
-        self.enText = tk.Entry(self, text = '')
-        self.butChange.pack(side = tk.TOP)
-        self.lblName.pack(side = tk.TOP)
-        self.enText.pack(side = tk.TOP)
+        self.V = tk.Frame(self)
+        self.H = tk.Frame(self)
+        self.HT = tk.Frame(self.H)
+        self.HB = tk.Frame(self.H)
+
+        self.V.pack(side = tk.LEFT)
+        self.H.pack(side = tk.RIGHT)
+        self.HT.pack(side = tk.TOP)
+        self.HB.pack(side = tk.BOTTOM)
+
+        for i in range(4):
+            b = tk.Button(self.V)
+            b.pack(side = tk.TOP)
+        for i in range(2):
+            b = tk.Button(self.HT)
+            b.pack(side = tk.LEFT)
+        c = tk.Canvas(self.HB)
+
 
 app = Min_gui()
 
