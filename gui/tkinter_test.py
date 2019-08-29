@@ -1,4 +1,5 @@
 import tkinter as tk
+from random import randint
 
 class Min_gui(tk.Frame):
 
@@ -20,15 +21,15 @@ class Min_gui(tk.Frame):
         self.HB = tk.Frame(self.H)
 
         self.V.pack(side = tk.LEFT)
-        self.H.pack(side = tk.RIGHT)
+        self.H.pack(side = tk.RIGHT, fill = tk.X)
         self.HT.pack(side = tk.TOP)
         self.HB.pack(side = tk.BOTTOM)
 
         for i in range(4):
-            b = tk.Button(self.V)
-            b.pack(side = tk.TOP)
+            b = tk.Button(self.V, text = "{}".format(randint(50,500)))
+            b.pack(side = tk.TOP, fill = tk.BOTH)
         for i in range(2):
-            b = tk.Button(self.HT)
+            b = tk.Button(self.HT, text = "{}".format(randint(50,500)))
             b.pack(side = tk.LEFT)
         c = tk.Canvas(self.HB)
 

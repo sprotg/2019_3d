@@ -21,6 +21,7 @@ try:
 		id INTEGER PRIMARY KEY,
 		navn TEXT,
         producent INT,
+        pris INT,
         årstal INTEGER);""")
 
     con.execute("""CREATE TABLE guitarister (
