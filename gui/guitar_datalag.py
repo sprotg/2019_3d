@@ -36,7 +36,6 @@ class GuitarData():
 
     def delete_guitar(self, id):
         c = self.db.cursor()
-        print('Guitar slettes: {}'.format(id))
         c.execute('DELETE FROM guitarmodeller WHERE id = ?;', (id,))
         self.db.commit()
 
