@@ -1,5 +1,6 @@
 import sqlite3
 
+
 class Guitar():
     def __init__(self, navn, pris, maerke, aarstal):
         self.navn = navn
