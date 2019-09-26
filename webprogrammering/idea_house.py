@@ -30,11 +30,6 @@ def my_render(template, **kwargs):
     else:
         return render_template(template, loggedin=login_status, user = '', **kwargs)
 
-@app.route("/")
-@app.route('/index')
-def index():
-    return redirect(url_for('.home'))
-
 def get_login_status():
     return 'currentuser' in session
 
@@ -43,7 +38,6 @@ def get_user_id():
         return session['currentuser']
     else:
         return -1
-
 
 @app.route("/")
 @app.route("/home")
@@ -57,10 +51,17 @@ def nyide():
     data.register_new_idea(text, userid)
     return redirect("/visideer")
 
-@app.route("/visideer")
+@app.route("/visideer", methods=['GET'])
 def vis():
-    antal = data.get_idea_count(get_user_id())
-    return my_render("vis.html")
+    if 'currentuser' in session:
+        if 'id' in request.args:
+            ideer = data.get_idea_list(session['currentuser'], ideaid = request.args['id'])
+        else:
+            ideer = data.get_idea_list(session['currentuser'])
+
+    else:
+        ideer = []
+    return my_render("vis.html", ideas = ideer)
 
 @app.route("/register")
 def register():

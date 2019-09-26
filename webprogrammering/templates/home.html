@@ -3,7 +3,7 @@
 {% if loggedin == True %}
 <div class="form-group">
   <form class="form-control" action="/nyide" method="post">
-    <label for="text">Beskriv din idé:</label>
+    <label class="form-control-static" for="text">Beskriv din idé:</label>
     <textarea class="form-control" rows="5" id="text" name="idea"></textarea>
     <button class="form-control" type="submit" name="button">Send</button>
   </form>

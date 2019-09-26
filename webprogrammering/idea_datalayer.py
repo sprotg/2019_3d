@@ -30,13 +30,19 @@ class IdeaData():
         else:
             return None
 
-    def get_idea_list(self, id):
+    def get_idea_list(self, userid, ideaid = None):
         db = self._get_db()
         c = db.cursor()
-        c.execute("""SELECT idea from Ideas WHERE userid = ?""",(id,))
+        if ideaid is not None:
+            c.execute("SELECT idea FROM Ideas WHERE id = ?", ideaid)
+            t = c.fetchone()
+            print("Idéen er: {}".format(t[0]))
+            c.execute("""SELECT Ideas.id, idea, timestamp, UserProfiles.username FROM Ideas JOIN UserProfiles ON Ideas.userid = UserProfiles.id WHERE idea LIKE ?""", (t[0],))
+        else:
+            c.execute("""SELECT Ideas.id, idea, timestamp, UserProfiles.username FROM Ideas JOIN UserProfiles ON Ideas.userid = UserProfiles.id WHERE userid = ?""",(userid,))
         idea_list = []
         for i in c:
-            idea_list.append(i[0])
+            idea_list.append({'id':i[0], 'text':i[1], 'date':i[2], 'user': i[3]})
         return idea_list
 
 
@@ -45,6 +51,12 @@ class IdeaData():
         c = db.cursor()
         c.execute("""INSERT INTO Ideas (idea, userid) VALUES (?, ?);""",(idea, id))
         db.commit()
+
+    def get_idea_count(self, userid):
+        c = self._get_db().cursor()
+        c.execute("SELECT count(rowid) FROM Ideas WHERE userid == ?;", (userid,))
+        n = c.fetchone()
+        return n[0]
 
     def get_user_id(self, s):
         c = self._get_db().cursor()
@@ -93,11 +105,11 @@ class IdeaData():
 
     def _create_db_tables(self):
         db = self._get_db()
-        try:
-            db.execute("DROP TABLE IF EXISTS Ideas;")
-            db.commit()
-        except:
-            print('Fejl ved sletning af tabeller.')
+        #try:
+        #    db.execute("DROP TABLE IF EXISTS Ideas;")
+        #    db.commit()
+        #except:
+        #    print('Fejl ved sletning af tabeller.')
         c = db.cursor()
         try:
             c.execute("""CREATE TABLE UserProfiles (
