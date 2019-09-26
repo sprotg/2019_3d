@@ -38,11 +38,29 @@ def index():
 def get_login_status():
     return 'currentuser' in session
 
+def get_user_id():
+    if get_login_status():
+        return session['currentuser']
+    else:
+        return -1
+
 
 @app.route("/")
 @app.route("/home")
 def home():
     return my_render('home.html')
+
+@app.route("/nyide", methods=['POST'])
+def nyide():
+    text = request.form['idea']
+    userid = get_user_id()
+    data.register_new_idea(text, userid)
+    return redirect("/visideer")
+
+@app.route("/visideer")
+def vis():
+    antal = data.get_idea_count(get_user_id())
+    return my_render("vis.html")
 
 @app.route("/register")
 def register():

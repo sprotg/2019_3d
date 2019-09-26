@@ -44,7 +44,7 @@ class IdeaData():
         db = self._get_db()
         c = db.cursor()
         c.execute("""INSERT INTO Ideas (idea, userid) VALUES (?, ?);""",(idea, id))
-        db().commit()
+        db.commit()
 
     def get_user_id(self, s):
         c = self._get_db().cursor()
@@ -89,8 +89,15 @@ class IdeaData():
             return False
         return db_pw == pw
 
+
+
     def _create_db_tables(self):
         db = self._get_db()
+        try:
+            db.execute("DROP TABLE IF EXISTS Ideas;")
+            db.commit()
+        except:
+            print('Fejl ved sletning af tabeller.')
         c = db.cursor()
         try:
             c.execute("""CREATE TABLE UserProfiles (
@@ -105,7 +112,8 @@ class IdeaData():
             c.execute("""CREATE TABLE Ideas (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 userid INTEGER,
-                idea TEXT);""")
+                idea TEXT,
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP);""")
         except Exception as e:
             print(e)
 
