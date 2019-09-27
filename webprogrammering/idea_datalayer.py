@@ -1,7 +1,6 @@
 from flask import g
 import sqlite3
 
-
 class IdeaData():
 
     def __init__(self):
@@ -13,7 +12,7 @@ class IdeaData():
     def _get_db(self):
         db = g.get('_database', None)
         if db is None:
-            db = g._database = sqlite3.connect(self.DATABASE)
+            db = g._databdase = sqlite3.connect(self.DATABASE)
         return db
 
     def close_connection(self):
