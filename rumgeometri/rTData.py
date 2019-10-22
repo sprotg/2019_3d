@@ -72,11 +72,11 @@ class RTData():
     def disconnect(self):
         if self.connected:
             print('Stopping thread')
-            self.connected = False
             if self.s is not None:
                 self.s.close()
             time.sleep(1)
-            print('Thread stopped')
+        self.connected = False
+        print('Thread stopped')
 
 
     def read(self):
