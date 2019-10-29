@@ -7,7 +7,6 @@ class Game():
         print(self.grid)
 
     def build_grid(self):
-        print(self.grid)
         for x in range(0, len(self.grid)):
             for y in range(0, len(self.grid)):
                 if self.grid[x][y] == 0:
@@ -21,11 +20,13 @@ class Game():
                         if self.grid[x][fill] == 0:
                             self.grid[x][fill] = random.randint(1,5)
 
+
     def shift_column(self, l, n):
         return l[n:] + l[:n]
 
 
     def swap_tiles(self, x1,y1,x2,y2):
+        #Sørg for, at vi kun kan bytte naboceller.
         if abs(x1-x2) <= 1 and abs(y1-y2) <= 1:
             self.grid[x1][y1], self.grid[x2][y2] = self.grid[x2][y2], self.grid[x1][y1]
 
@@ -35,10 +36,11 @@ class Game():
             for y in range(0, len(self.grid)):
                 #Detect horizontal match
                 if self.grid[x][y] == self.grid[x-1][y] and self.grid[x][y] == self.grid[x+1][y]:
-                    print('Match!')
                     self.grid[x-1][y] = 0
                     self.anim[x-1][y] = 50
                     self.grid[x][y] = 0
                     self.anim[x][y] = 50
                     self.grid[x+1][y] = 0
                     self.anim[x+1][y] = 50
+                    #Hvis vi har fjernet brikker, skal pladen fyldes igen
+                    self.build_grid()
