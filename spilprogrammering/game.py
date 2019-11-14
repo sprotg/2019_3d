@@ -7,10 +7,11 @@ class Game():
         print(self.grid)
 
     def build_grid(self):
+        #import pdb; pdb.set_trace()
         for x in range(0, len(self.grid)):
             for y in range(0, len(self.grid)):
                 if self.grid[x][y] == 0:
-                    if y < len(self.grid[x])-1:
+                    if y < len(self.grid[x])-1 and not all(self.grid[x][yy] == 0 for yy in range(y, len(self.grid[x]))):
                         # Flyt kolonnen ned
                         while(self.grid[x][y] == 0):
                             self.grid[x][y:] = self.shift_column(self.grid[x][y:], 1)
@@ -36,11 +37,29 @@ class Game():
             for y in range(0, len(self.grid)):
                 #Detect horizontal match
                 if self.grid[x][y] == self.grid[x-1][y] and self.grid[x][y] == self.grid[x+1][y]:
+                    c = self.grid[x][y]
+
                     self.grid[x-1][y] = 0
-                    self.anim[x-1][y] = 50
                     self.grid[x][y] = 0
-                    self.anim[x][y] = 50
                     self.grid[x+1][y] = 0
-                    self.anim[x+1][y] = 50
+                    x1 = x+2
+                    while x1 < len(self.grid) and self.grid[x1][y] == c:
+                        self.grid[x1][y] = 0
+                        x1 += 1
+                    #Hvis vi har fjernet brikker, skal pladen fyldes igen
+                    self.build_grid()
+        for y in range(1, len(self.grid)-1):
+            for x in range(0, len(self.grid)):
+                #Detect vertical match
+                if self.grid[x][y] == self.grid[x][y-1] and self.grid[x][y] == self.grid[x][y+1]:
+                    c = self.grid[x][y]
+
+                    self.grid[x][y-1] = 0
+                    self.grid[x][y] = 0
+                    self.grid[x][y+1] = 0
+                    y1 = y+2
+                    while y1 < len(self.grid) and self.grid[x][y1] == c:
+                        self.grid[x][y1] = 0
+                        y1 += 1
                     #Hvis vi har fjernet brikker, skal pladen fyldes igen
                     self.build_grid()
