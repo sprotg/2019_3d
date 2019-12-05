@@ -33,7 +33,44 @@ class Vector():
         return "({}, {}, {})".format(self.x, self.y, self.z)
 
 
+class Matrix3x3():
+    def __init__(self, a11,a12,a13,a21,a22,a23,a31,a32,a33):
+        self.elems = [[a11,a12,a13],[a21,a22,a23],[a31,a32,a33]]
 
+    def get_column(self, c):
+        return Vector(self.elems[0][c-1], self.elems[1][c-1], self.elems[2][c-1])
+
+    def get_row(self, c):
+        return Vector(self.elems[c-1][0], self.elems[c-1][1], self.elems[c-1][2])
+
+    def __str__(self):
+        return "({}, {}, {})".format(self.elems[0], self.elems[1], self.elems[2])
+
+    @classmethod
+    def get_identity(cls):
+        return cls(1,0,0,0,1,0,0,0,1)
+
+    @classmethod
+    def get_zeros(cls):
+        return cls(0,0,0,0,0,0,0,0,0)
+
+    def mult(self, m2):
+        tmp = Matrix3x3.get_zeros()
+        for i in range(1,4):
+            for j in range(1,4):
+                tmp.elems[i-1][j-1] = dot(self.get_row(i), m2.get_column(j))
+        for i in range(1,4):
+            for j in range(1,4):
+                self.elems[i-1][j-1] = tmp.elems[i-1][j-1]
+
+    @classmethod
+    def mult2(cls, m1, m2):
+        tmp = cls.get_zeros()
+        for i in range(1,4):
+            for j in range(1,4):
+                tmp.elems[i-1][j-1] = dot(m1.get_row(i), m2.get_column(j))
+
+        return tmp
 
 class Line():
     def __init__(self, p0, d):
@@ -272,3 +309,12 @@ def intersect(l: Line, p: Plane) -> Point:
         print('parameter: {}'.format(t))
         return l.point(t)
 
+
+if __name__ == "__main__":
+    m = Matrix3x3(1,2,3,4,5,6,7,8,9)
+    m2 = Matrix3x3(1,2,3,4,5,6,-7,8,4)
+
+    print(Matrix3x3.mult2(m, m2))
+    print(m)
+    m.mult(m2)
+    print(m)
