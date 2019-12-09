@@ -17,7 +17,7 @@ def create_db_table():
     c.execute("""CREATE TABLE IF NOT EXISTS terninger(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         tal INTEGER);""")
-    _get_db.commit()
+    _get_db().commit()
 
 
 @app.route("/")
