@@ -48,6 +48,7 @@ def draw_game():
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+            ai.save()
             done = True
         if event.type == pygame.MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
@@ -61,6 +62,7 @@ while not done:
             elif game.state == 1:
                 if x_off <= pos[0] <= x_off + 6*(size*1.1) and y_off > pos[1]:
                     x = int((pos[0] - x_off)/(size*1.1))
+                    ai.add_data((game.grid, x))
                     game.place(x)
                     if game.win():
                         game.state = 5
