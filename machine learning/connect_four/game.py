@@ -28,7 +28,7 @@ class Connect_four_game:
 
     def win(self):
         #Check for win
-        return false
+        return False
 
     def turn(self):
         if self.state < 3:

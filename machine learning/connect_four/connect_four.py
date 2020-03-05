@@ -1,5 +1,6 @@
 import pygame
 from game import Connect_four_game
+from connec_four_ai import Connect_four_ai
 
 # Setup pygame
 pygame.init()
@@ -10,10 +11,12 @@ clock = pygame.time.Clock()
 # Initialize game variables
 done = False
 game = Connect_four_game()
+ai = Connect_four_ai()
+
 x_off = 130
 y_off = 130
 size = 70
-
+players = 1
 
 # tile vars
 player_colors = [(100,100,100), (255,30,30), (255,255,30)]
@@ -58,9 +61,11 @@ while not done:
                     else:
                         game.state = 3
             elif game.state == 3:
-                if x_off <= pos[0] <= x_off + 6*(size*1.1) and y_off > pos[1]:
-                    x = int((pos[0] - x_off)/(size*1.1))
-                    game.place(x)
+                if players == 2:
+                    if x_off <= pos[0] <= x_off + 6*(size*1.1) and y_off > pos[1]:
+                        x = int((pos[0] - x_off)/(size*1.1))
+                        game.place(x)
+
                     if game.win():
                         game.state = 5
                     else:
@@ -68,7 +73,13 @@ while not done:
             elif game.state == 5:
                 game.reset()
                 game.state == 1
-
+        if players == 1 and game.state == 3:
+            #Make AI move
+            game.place(ai.make_move(game))
+            if game.win():
+                game.state = 5
+            else:
+                game.state = 1
 
     draw_game()
 
