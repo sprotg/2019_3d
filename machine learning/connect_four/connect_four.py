@@ -4,7 +4,7 @@ from connec_four_ai import Connect_four_ai
 
 # Setup pygame
 pygame.init()
-screen = pygame.display.set_mode((1000, 800))#, pygame.FULLSCREEN)
+screen = pygame.display.set_mode((1000, 600))#, pygame.FULLSCREEN)
 myfont = pygame.font.SysFont("monospace", 12)
 clock = pygame.time.Clock()
 
@@ -37,6 +37,8 @@ def draw_game():
             pygame.draw.rect(screen, player_colors[game.turn()], pygame.Rect(x_off + size * x * 1.1, y_off + size * (-1) * 1.1, size, size))
     elif game.state == 0:
         screen.blit(myfont.render("Click to start", 0, (255,255,255)), (470,380))
+        screen.blit(myfont.render("One player vs ai", 0, (255,255,255)), (170,480))
+        screen.blit(myfont.render("Two players", 0, (255,255,255)), (670,480))
 
 
 
@@ -50,6 +52,10 @@ while not done:
         if event.type == pygame.MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
             if game.state == 0:
+                if pos[0] < 500:
+                    players = 1
+                else:
+                    players = 2
                 game.state = 1
 
             elif game.state == 1:
