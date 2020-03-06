@@ -39,6 +39,8 @@ def draw_game():
         screen.blit(myfont.render("Click to start", 0, (255,255,255)), (470,380))
         screen.blit(myfont.render("One player vs ai", 0, (255,255,255)), (170,480))
         screen.blit(myfont.render("Two players", 0, (255,255,255)), (670,480))
+    elif game.state == 5:
+        screen.blit(myfont.render("Game was won!", 0, (255,255,255)), (470,380))
 
 
 
@@ -72,6 +74,7 @@ while not done:
                 if players == 2:
                     if x_off <= pos[0] <= x_off + 6*(size*1.1) and y_off > pos[1]:
                         x = int((pos[0] - x_off)/(size*1.1))
+                        ai.add_data((game.grid, x))
                         game.place(x)
 
                     if game.win():

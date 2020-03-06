@@ -28,6 +28,13 @@ class Connect_four_game:
 
     def win(self):
         #Check for win
+        #Vandret
+        for y in range(6):
+            for x in [0,1,2]:
+                if (self.grid[y][x] == self.grid[y][x+1] ==
+                self.grid[y][x+2] ==
+                self.grid[y][x+3]) and self.grid[y][x] != 0:
+                    return self.grid[y][x]
         return False
 
     def turn(self):
